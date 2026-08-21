@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<style>
+    .hero-card {
+        text-align: center;
+        max-width: 650px;
+        background: white;
+        padding: 3rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem;
+        color: #64748b;
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    /* Light flowy background animation */
+    .blob {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(46,125,50,0.15) 0%, rgba(255,255,255,0) 70%);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite alternate;
+        z-index: 0;
+    }
+
+    .blob-1 { top: -40px; left: -40px; }
+    .blob-2 { bottom: -40px; right: -40px; animation-delay: 3s; }
+
+    @keyframes float {
+        0% { transform: translate(0, 0) scale(1); }
+        100% { transform: translate(20px, 20px) scale(1.1); }
+    }
+
+    .content-wrapper {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="hero-card animate-fade">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="content-wrapper">
+        <h1 class="hero-title">Smart AI Irrigation System</h1>
+        <p class="hero-subtitle">
+            Optimize your crop yields and minimize water waste. Our intelligent platform computes real-time environmental metrics, crop conditions, and regional constraints to determine precise hydration parameters.
+        </p>
+        <a href="/analyze" class="btn-primary">Start Analysis</a>
+    </div>
+</div>
+{% endblock %}

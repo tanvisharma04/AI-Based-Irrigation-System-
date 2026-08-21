@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<style>
+    .results-wrapper {
+        width: 100%;
+        max-width: 900px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .results-wrapper { grid-template-columns: 1fr; }
+    }
+
+    .card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .metric-box {
+        background: var(--accent);
+        padding: 1.25rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border-left: 4px solid var(--primary);
+    }
+
+    .metric-value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    td {
+        padding: 8px 0;
+        border-bottom: 1px solid #f1f5f9;
+        font-size: 0.9rem;
+    }
+
+    td:last-child {
+        text-align: right;
+        font-weight: 600;
+    }
+
+    .actions {
+        margin-top: 1.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="results-wrapper animate-fade">
+    <div class="card">
+        <h2>AI Model Prediction</h2>
+        <div class="metric-box">
+            <small>Water Volume Recommendation</small>
+            <div class="metric-value">{{ prediction.recommended_water_liters }} L / Acre</div>
+        </div>
+
+        <div class="metric-box" style="border-color: #0284c7; background: #e0f2fe;">
+            <small>Suggested Schedule</small>
+            <div style="font-size: 1.1rem; font-weight: 600; color: #0369a1; margin-top: 5px;">
+                {{ prediction.schedule }}
+            </div>
+        </div>
+
+        <div class="actions">
+            <a href="/analyze" class="btn-primary">New Analysis</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Input Snapshot</h3>
+        <table>
+            {% for key, val in data.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ val }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,194 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<style>
+    .form-card {
+        background: white;
+        width: 100%;
+        max-width: 900px;
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .form-group {
+        background: #f8fafc;
+        padding: 1rem;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .group-title {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #334155;
+        margin-bottom: 0.75rem;
+        display: block;
+    }
+
+    .radio-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+
+    .radio-options label {
+        background: white;
+        border: 1px solid var(--border);
+        padding: 5px 10px;
+        border-radius: 16px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.2s ease;
+        user-select: none;
+    }
+
+    .radio-options input[type="radio"] {
+        display: none;
+    }
+
+    .radio-options label:has(input[type="radio"]:checked) {
+        background-color: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .range-scroll {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    .submit-container {
+        margin-top: 2rem;
+        text-align: right;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-card animate-fade">
+    <h2>Configure Farm Parameters</h2>
+    <form action="/predict" method="post">
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label class="group-title">First Merging Used</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="first_merging" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="first_merging" value="No"> No</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Irrigation Needed</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="irrigation_needed" value="Low" required> Low</label>
+                    <label><input type="radio" name="irrigation_needed" value="Medium"> Medium</label>
+                    <label><input type="radio" name="irrigation_needed" value="High"> High</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Region</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="region" value="North" required> North</label>
+                    <label><input type="radio" name="region" value="West"> West</label>
+                    <label><input type="radio" name="region" value="East"> East</label>
+                    <label><input type="radio" name="region" value="South"> South</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Water Source</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="water_source" value="River" required> River</label>
+                    <label><input type="radio" name="water_source" value="Rainwater"> Rainwater</label>
+                    <label><input type="radio" name="water_source" value="Reservoir"> Reservoir</label>
+                    <label><input type="radio" name="water_source" value="Groundwater"> Groundwater</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Irrigation Method</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="irrigation_method" value="Drip" required> Drip</label>
+                    <label><input type="radio" name="irrigation_method" value="Canal"> Canal</label>
+                    <label><input type="radio" name="irrigation_method" value="Sprinklers"> Sprinklers</label>
+                    <label><input type="radio" name="irrigation_method" value="Rain fed"> Rain fed</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Season</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="season" value="Kharif" required> Kharif</label>
+                    <label><input type="radio" name="season" value="Rabi"> Rabi</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Crop Growth Stage</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="growth_stage" value="Sowing" required> Sowing</label>
+                    <label><input type="radio" name="growth_stage" value="Vegetative"> Vegetative</label>
+                    <label><input type="radio" name="growth_stage" value="Flowering"> Flowering</label>
+                    <label><input type="radio" name="growth_stage" value="Harvest"> Harvest</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Crop Type</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="crop_type" value="Rhode Island" required> Rhode Island</label>
+                    <label><input type="radio" name="crop_type" value="Rice"> Rice</label>
+                    <label><input type="radio" name="crop_type" value="Maize"> Maize</label>
+                    <label><input type="radio" name="crop_type" value="Potato"> Potato</label>
+                    <label><input type="radio" name="crop_type" value="Sugar cane"> Sugar cane</label>
+                    <label><input type="radio" name="crop_type" value="Wheat"> Wheat</label>
+                    <label><input type="radio" name="crop_type" value="Cotton"> Cotton</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Soil Type</label>
+                <div class="radio-options">
+                    <label><input type="radio" name="soil_type" value="Clay" required> Clay</label>
+                    <label><input type="radio" name="soil_type" value="Silt"> Silt</label>
+                    <label><input type="radio" name="soil_type" value="Sandy"> Sandy</label>
+                    <label><input type="radio" name="soil_type" value="Loamy"> Loamy</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Sunlight Hours (0 to 12)</label>
+                <div class="radio-options range-scroll">
+                    {% for h in range(0, 13) %}
+                    <label><input type="radio" name="sunlight_hours" value="{{ h }}" {% if loop.first %}required{% endif %}> {{ h }}h</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="group-title">Temperature Range (20 to 45°C)</label>
+                <div class="radio-options range-scroll">
+                    {% for t in range(20, 46) %}
+                    <label><input type="radio" name="temperature" value="{{ t }}" {% if loop.first %}required{% endif %}> {{ t }}°C</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <div class="submit-container">
+            <button type="submit" class="btn-primary">Predict</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
