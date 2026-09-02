@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from model import predict_irrigation
 
 app = FastAPI(title="AI Irrigation System")
 templates = Jinja2Templates(directory="templates")
@@ -45,15 +46,24 @@ async def predict_page(
         "Temperature": f"{temperature}°C"
     }
     
-    # Placeholder prediction calculation
-    mock_prediction = {
-        "recommended_water_liters": 450,
-        "schedule": "Every 12 Hours (Early Morning / Evening)",
-        "status": "Optimal"
+    # Real ML prediction using model.py
+    raw_input_data = {
+        "first_merging": first_merging,
+        "region": region,
+        "water_source": water_source,
+        "irrigation_method": irrigation_method,
+        "season": season,
+        "growth_stage": growth_stage,
+        "crop_type": crop_type,
+        "soil_type": soil_type,
+        "sunlight_hours": sunlight_hours,
+        "temperature": temperature
     }
+    
+    prediction = predict_irrigation(raw_input_data)
 
     return templates.TemplateResponse(
         request, 
         "result.html", 
-        {"data": captured_data, "prediction": mock_prediction}
-    )
+        {"data": captured_data, "prediction": prediction}
+    )
