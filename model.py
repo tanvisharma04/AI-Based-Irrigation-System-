@@ -217,27 +217,40 @@ class IrrigationModelEngine:
         temp = feature_row.get('Temperature_C', 30.0)
         sunlight = feature_row.get('Sunlight_Hours', 6.0)
 
-        # Base water requirement depending on predicted need category
+        # Base water requirement & frequency depending on predicted need category
         if pred_need == 'Low':
             base_water = 250
-            schedule = "Every 24 Hours (Early Morning)"
+            frequency = "1x Daily (Every 24 hours)"
+            best_time = "Early Morning (5:00 AM - 8:00 AM) to minimize evaporation"
+            schedule = "1x Daily (Early Morning)"
         elif pred_need == 'Medium':
             base_water = 480
-            schedule = "Every 12 Hours (Early Morning / Evening)"
+            frequency = "2x Daily (Every 12 hours)"
+            best_time = "Early Morning (6:00 AM) & Late Evening (6:00 PM) to minimize evaporation"
+            schedule = "2x Daily (Early Morning / Late Evening)"
         else:  # High
             base_water = 750
-            schedule = "Every 6 Hours (Immediate / High Frequency)"
+            frequency = "3x to 4x Daily (High Frequency)"
+            best_time = "Early Morning, Early Afternoon & Late Evening to minimize evaporation"
+            schedule = "3x - 4x Daily (Immediate / High Frequency)"
 
         # Temperature & sunlight adjustments
         temp_factor = 1.0 + max(0.0, (temp - 25.0) * 0.015)
         sun_factor = 1.0 + max(0.0, (sunlight - 6.0) * 0.02)
         
         calculated_water = int(round(base_water * temp_factor * sun_factor))
+        
+        # Convert liters to gallons (1 Liter ≈ 0.264172 Gallons)
+        gallons = int(round(calculated_water * 0.264172))
 
         return {
             "status": pred_need,
             "irrigation_need": pred_need,
             "recommended_water_liters": calculated_water,
+            "recommended_water_gallons": gallons,
+            "water_volume_display": f"{calculated_water} Liters / Acre ({gallons} Gallons / Acre)",
+            "irrigation_frequency": frequency,
+            "best_time_of_day": best_time,
             "schedule": schedule,
             "confidence": f"{confidence}%",
             "probabilities": proba_dict

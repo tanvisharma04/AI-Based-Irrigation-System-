@@ -4,7 +4,7 @@
 <style>
     .results-wrapper {
         width: 100%;
-        max-width: 900px;
+        max-width: 950px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2rem;
@@ -23,16 +23,31 @@
 
     .metric-box {
         background: var(--accent);
-        padding: 1.25rem;
-        border-radius: 8px;
+        padding: 1.2rem;
+        border-radius: 10px;
         margin-bottom: 1rem;
         border-left: 4px solid var(--primary);
     }
 
+    .metric-title {
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #64748b;
+        font-weight: 600;
+        margin-bottom: 4px;
+    }
+
     .metric-value {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         font-weight: bold;
         color: var(--primary);
+    }
+
+    .metric-sub {
+        font-size: 0.88rem;
+        color: #475569;
+        margin-top: 4px;
     }
 
     table {
@@ -60,16 +75,31 @@
 {% block content %}
 <div class="results-wrapper animate-fade">
     <div class="card">
-        <h2>AI Model Prediction</h2>
+        <h2>🌱 AI Irrigation Recommendation</h2>
+        
+        <!-- Water Volume Card -->
         <div class="metric-box">
-            <small>Water Volume Recommendation</small>
-            <div class="metric-value">{{ prediction.recommended_water_liters }} L / Acre</div>
+            <div class="metric-title">💧 Target Water Volume (per Acre / cycle)</div>
+            <div class="metric-value">{{ prediction.recommended_water_liters }} Liters / Acre</div>
+            <div class="metric-sub">Approx. <strong>{{ prediction.recommended_water_gallons }} Gallons</strong> / Acre per cycle</div>
         </div>
 
+        <!-- Irrigation Frequency Card -->
         <div class="metric-box" style="border-color: #0284c7; background: #e0f2fe;">
-            <small>Suggested Schedule</small>
-            <div style="font-size: 1.1rem; font-weight: 600; color: #0369a1; margin-top: 5px;">
-                {{ prediction.schedule }}
+            <div class="metric-title" style="color: #0369a1;">🔄 Irrigation Frequency</div>
+            <div style="font-size: 1.3rem; font-weight: bold; color: #0369a1; margin-top: 4px;">
+                {{ prediction.irrigation_frequency }}
+            </div>
+            <div class="metric-sub" style="color: #075985;">
+                Predicted Need Level: <strong>{{ prediction.irrigation_need }}</strong> (Confidence: {{ prediction.confidence }})
+            </div>
+        </div>
+
+        <!-- Best Time of Day Card -->
+        <div class="metric-box" style="border-color: #16a34a; background: #f0fdf4;">
+            <div class="metric-title" style="color: #15803d;">⏰ Best Time of Day</div>
+            <div style="font-size: 1.05rem; font-weight: 600; color: #166534; margin-top: 4px;">
+                {{ prediction.best_time_of_day }}
             </div>
         </div>
 
@@ -79,7 +109,7 @@
     </div>
 
     <div class="card">
-        <h3>Input Snapshot</h3>
+        <h3>📋 Input Snapshot</h3>
         <table>
             {% for key, val in data.items() %}
             <tr>
